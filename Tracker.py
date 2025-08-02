@@ -3,8 +3,15 @@ import calendar
 
 print(calendar.calendar(2025))
 
-buildDate = "7/30/2025"
+buildDate = "8/1/2025"
 version = "0.01"
+
+"""
+NOTES
+To calculate your menstrual cycle, count the days from the first day of your period (day one) to the first day of your 
+next period. This number represents your cycle length. Most women have cycles between 21 and 35 days, but the average 
+is 28 days
+"""
 
 """
 the goal here is build a application that will track the menstrual cycle of a number of women. the primary purpose
