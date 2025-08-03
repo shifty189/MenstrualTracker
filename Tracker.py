@@ -1,11 +1,43 @@
 import tkinter as tk
-import calendar
+from Classes import Person
 
-print(calendar.calendar(2025))
+def showHelp(window):
+    """
+    This function simply opens a new window and displays the version number to the user
+    """
+    helpWindow = tk.Toplevel(window)
+    helpLabel = tk.Label(helpWindow, text=f'Tracker version {version}')
+    helpLabel.pack()
 
-buildDate = "8/1/2025"
-version = "0.01"
 
+buildDate = "8/3/2025"
+version = "0.02"
+
+Main = tk.Tk()
+Cal_Frame = tk.Frame()
+
+#Build Menu
+menubar = tk.Menu(Main)
+Main.config(menu=menubar)
+#Help Menu
+help_menu = tk.Menu(menubar)
+menubar.add_cascade(label="Help", menu=help_menu)
+help_menu.add_command(label='version', command=lambda: showHelp(Main))
+
+User = Person("User","8/22/1996", "7/16/2025", Cal_Frame)
+User.calendar.pack()
+
+Main.title('Menstrual Tracker')
+Cal_Frame.pack()
+State = 0
+
+if State == 0:
+    ...
+elif State == 1:
+    ...
+
+
+tk.mainloop()
 """
 NOTES
 To calculate your menstrual cycle, count the days from the first day of your period (day one) to the first day of your 
