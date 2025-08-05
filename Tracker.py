@@ -10,31 +10,33 @@ def showHelp(window):
     helpLabel = tk.Label(helpWindow, text=f'Tracker version {version}')
     helpLabel.pack()
 
+
 def createUser(name, cstart):
     """
     this function is to create a new user
     """
     with open(f'{path}\\Documents\\MenstrualTracker\\Users.txt', 'w') as f:
-        f.write(name + "\n")
-        f.write(cstart + "\n")
+        f.write(name + ":" + cstart + "\n")
 
 
 buildDate = "8/5/2025"
-version = "0.03"
+version = "0.04"
 
 Main = tk.Tk()
 Cal_Frame = tk.Frame()
+Username_Frame = tk.Frame()
 
 #Build Menu
 menubar = tk.Menu(Main)
 Main.config(menu=menubar)
+
 #Help Menu
 help_menu = tk.Menu(menubar)
 menubar.add_cascade(label="Help", menu=help_menu)
 help_menu.add_command(label='version', command=lambda: showHelp(Main))
 
 path = os.path.expanduser('~')
-if os.path.exists(f'{path}\\Documents\\MenstrualTracker\\Users.txt') == True:
+if os.path.exists(f'{path}\\Documents\\MenstrualTracker\\Users.txt'):
     State = 1
 else:
     os.mkdir(f'{path}\\Documents\\MenstrualTracker')
@@ -66,12 +68,19 @@ if State == 0:
     EntryButton.grid(row=3, columnspan=2)
 
 elif State == 1:
+    with open(f'{path}\\Documents\\MenstrualTracker\\Users.txt', 'r') as f:
+        temp = f.readlines()
+    userTemp = temp[0].split(':')
+    Username_Frame.pack()
     Cal_Frame.pack()
-    User = Person("User","8/22/1996", "7/16/2025", Cal_Frame)
+    User = Person(userTemp[0], userTemp[1], Cal_Frame)
+    userNameLabel = tk.Label(Username_Frame, text=User.name, bg='pink', fg='black', pady=5)
+    userNameLabel.pack()
     User.calendar.pack()
 
 
 tk.mainloop()
+
 """
 NOTES
 To calculate your menstrual cycle, count the days from the first day of your period (day one) to the first day of your 
