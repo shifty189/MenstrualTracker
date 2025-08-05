@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 from Classes import Person
 
 def showHelp(window):
@@ -9,9 +10,17 @@ def showHelp(window):
     helpLabel = tk.Label(helpWindow, text=f'Tracker version {version}')
     helpLabel.pack()
 
+def createUser(name, cstart):
+    """
+    this function is to create a new user
+    """
+    with open(f'{path}\\Documents\\MenstrualTracker\\Users.txt', 'w') as f:
+        f.write(name + "\n")
+        f.write(cstart + "\n")
 
-buildDate = "8/3/2025"
-version = "0.02"
+
+buildDate = "8/5/2025"
+version = "0.03"
 
 Main = tk.Tk()
 Cal_Frame = tk.Frame()
@@ -24,17 +33,42 @@ help_menu = tk.Menu(menubar)
 menubar.add_cascade(label="Help", menu=help_menu)
 help_menu.add_command(label='version', command=lambda: showHelp(Main))
 
-User = Person("User","8/22/1996", "7/16/2025", Cal_Frame)
-User.calendar.pack()
+path = os.path.expanduser('~')
+if os.path.exists(f'{path}\\Documents\\MenstrualTracker\\Users.txt') == True:
+    State = 1
+else:
+    os.mkdir(f'{path}\\Documents\\MenstrualTracker')
+    with open(f'{path}\\Documents\\MenstrualTracker\\Users.txt', "w"):
+        ...
+    State = 0
 
 Main.title('Menstrual Tracker')
-Cal_Frame.pack()
-State = 0
 
 if State == 0:
-    ...
+    descriptionLabel = tk.Label(Main, text='Create a new User to track')
+    descriptionLabel.grid(row=0, columnspan=2)
+
+    NameLabel = tk.Label(Main, text='Username')
+    NameLabel.grid(row=1, column=0)
+
+    name_var = tk.StringVar()
+    NameEntry = tk.Entry(Main, textvariable=name_var)
+    NameEntry.grid(row=1, column=1)
+
+    cStartLabel = tk.Label(Main, text='Last Cycle Start date')
+    cStartLabel.grid(row=2, column=0)
+
+    cstart_var = tk.StringVar()
+    cstartEntry = tk.Entry(Main, textvariable=cstart_var)
+    cstartEntry.grid(row=2, column=1)
+
+    EntryButton = tk.Button(Main, text='Create', command=lambda: createUser(name_var.get(), cstart_var.get()))
+    EntryButton.grid(row=3, columnspan=2)
+
 elif State == 1:
-    ...
+    Cal_Frame.pack()
+    User = Person("User","8/22/1996", "7/16/2025", Cal_Frame)
+    User.calendar.pack()
 
 
 tk.mainloop()
